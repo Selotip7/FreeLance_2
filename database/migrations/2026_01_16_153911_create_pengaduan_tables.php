@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text("deskripsi");
             $table->enum("kategori",["Pencurian","Tindakan Kriminal","Bencana Alam","Kerusakan Fasilitas Umum"]);
             $table->enum("status",["Diproses","Selesai","Tolak"])->default("Diproses");
-            $table->string("gambar");
-            $table->text("catatan");
+            $table->string("gambar")->nullable();
+            $table->text("catatan")->nullable();
             $table->date('tgl_pengaduan');
             $table->unsignedBigInteger("id_user");
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengaduan_tables');
+        Schema::dropIfExists('pengaduans');
     }
 };

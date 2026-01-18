@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PengaduanController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,4 +10,28 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/pengaduan', [PengaduanController::class, 'totalPengaduan']);
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/register', [UserController::class, 'register'])->name('register');
+
+
+//role admin
+Route::middleware(['auth:sanctum', 'CekRole:admin'])->group(function () {
+
+    Route::get('/pengaduan', [PengaduanController::class, 'totalPengaduan']);
+    Route::post('/pengaduan', [PengaduanController::class, 'store']);
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/pengaduan',[PengaduanController::class,'store']);
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::get('/logoutAll', [UserController::class, 'logoutAll']);
+});
+
+
+
+
+// Route::middleware(['auth:sanctum', 'CheckRole:masyarakat'])->group(function () {
+//     Route::get('/pengaduan', [PengaduanController::class, 'index']);
+//     Route::post('/pengaduan', [PengaduanController::class, 'store']);
+// });

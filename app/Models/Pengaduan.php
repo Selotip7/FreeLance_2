@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use illuminate\Database\Eloquent\Factories\HasFactory;
-use illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 
 class Pengaduan extends Model{
 
   use HasFactory;
   
-  protected $table ='pengaduan';
+  protected $table ='pengaduans';
 
   protected $primaryKey= 'id_pengaduan';
 
