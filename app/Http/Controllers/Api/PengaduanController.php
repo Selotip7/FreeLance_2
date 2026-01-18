@@ -26,24 +26,32 @@ class PengaduanController extends Controller
      */
     public function store(PengaduanRequest $request)
     {
-        $pengaduans=$request->validated();
-
-        //ambil file gambar dari request yang memiliki key 'gambar' 
-        $foto=$request->file('gambar');
-
-        // memberikan nama unique dan ditambah ekstensi default gamar request
-        $fotoName=Str::uuid().".".$foto->getClientOriginalExtension();
+        $data=$request->validated();
         
-        //membuat folder untuk menyimpan foto
-        Storage::disk('public')->putFileAs('Gambar Aduan',$foto,$fotoName);
+        if($request->hasFile('gambar')){
 
-        $newPengaduans=$request->all();
-        $newPengaduans['gambar']='Gambar Aduan/'.$fotoName;
+            //ambil file gambar dari request yang memiliki key 'gambar' 
+            $foto=$request->file('gambar');
+    
+            // memberikan nama unique dan ditambah ekstensi default gamar request
+            $fotoName=Str::uuid().".".$foto->getClientOriginalExtension();
 
+            // membuat folder untuk menyimpan foto
+            Storage::disk('public')->putFileAs('Gambar Aduan',$foto,$fotoName);
+    
+            
+            $data['gambar']='Gambar Aduan/'.$fotoName;
+        }
 
+        // Melakukan tambah id user sesuai id user yang sedang login/aktif
+        $data['id_user']=$request->user()->id;
+
+        // Simpan ke database
+        $pengaduan = Pengaduan::create($data);
         return response()->json([
-            'gambar'=> asset('storage/'.$newPengaduans['gambar'])
-        ]);
+            'gambar'=> asset('storage/'.$data['gambar']),
+            'pengaduan'=>$pengaduan
+        ],201);
 
     }
 
@@ -65,12 +73,49 @@ class PengaduanController extends Controller
         ]);
     }
 
+
+    public function dataPengaduan(){
+       $counts=Pengaduan::select('status')->selectRaw('count(*) as total')->groupBy('status')->pluck('total','status');
+        $total = Pengaduan::count();
+
+        return response()->json([
+            'total'=>$total    ,
+            'diproses'=>$counts->get('Diproses',0),
+            'selesai'=> $counts->get('Selesai', 0),
+            'tolak'=> $counts->get('Tolak', 0),
+        ]);
+
+        }
+
+     public function showAll(){
+        $pengaduans=Pengaduan::select('id','judul_laporan','deskripsi','kategori','status','gambar','catatan','tgl_pengaduan')->get();
+
+        return response()->json([
+            'data'=>$pengaduans
+        ]);
+     }
+
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
         //
+        $pengaduan = Pengaduan::findOrFail($id);
+
+        $data=$request->validate([
+            'status'=>'nullable|in:Diproses,Selesai,Tolak',
+            'catatan' => 'nullable|string',
+        ]);
+
+        if(isset($data['status'])){
+    $pengaduan->status=$data['status'];
+        }
+
+        if (isset($data['status'])) {
+            $pengaduan->status = $data['status'];
+        }
     }
 
     /**

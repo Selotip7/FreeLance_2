@@ -26,7 +26,7 @@ class PengaduanRequest extends FormRequest
             'judul_laporan'=>'required|max:255|string',
             'deskripsi'=>'required|string',
             'kategori'=>'required|in:Pencurian,Tindakan Kriminal,Bencana Alam,Kerusakan Fasilitas Umum',
-            'gambar'=>'required|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar'=>'image|mimes:jpeg,png,jpg|max:2048',
             'tgl_pengaduan'=>'required|date',
             
         ];

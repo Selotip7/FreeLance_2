@@ -17,16 +17,17 @@ Route::post('/register', [UserController::class, 'register'])->name('register');
 //role admin
 Route::middleware(['auth:sanctum', 'CekRole:admin'])->group(function () {
 
-    Route::get('/pengaduan', [PengaduanController::class, 'totalPengaduan']);
-    Route::post('/pengaduan', [PengaduanController::class, 'store']);
+    Route::get('/pengaduan/admin', [PengaduanController::class, 'showAll']);
 });
 
+//untuk tampil data pengaduan
+Route::get('/pengaduan', [PengaduanController::class, 'dataPengaduan']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/pengaduan',[PengaduanController::class,'store']);
+    Route::post('/pengaduan', [PengaduanController::class, 'store']);
     Route::get('/logout', [UserController::class, 'logout']);
     Route::get('/logoutAll', [UserController::class, 'logoutAll']);
-});
+    });
 
 
 
