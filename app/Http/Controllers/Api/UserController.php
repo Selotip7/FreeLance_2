@@ -66,28 +66,6 @@ class UserController extends Controller
     }
 
 
-    // public function login($email, $password)
-    // { {
-    //         // Hanya untuk testing
-    //         $user = User::where('email', $email)->first();
-
-    //         if ($user && $user->password) {
-    //             return response()->json(['message' => 'Login berhasil', 'user' => $user]);
-    //         }
-    //         $token = $user->createToken('auth_token')->plainTextToken;
-    //              return response()->json([
-    //                         'success' => true,
-    //                         'message' => "Berhasil Login",
-    //                         'access_token'=>$token,
-    //                         'token_type'=>'Bearer',
-    //                         'user'=>$user
-    //             ], 200);
-    //         // return response()->json(['message' => 'Email / password salah'], 401);
-    //     }
-
-
-    // }
-
     /**
      * Display the specified resource.
      */

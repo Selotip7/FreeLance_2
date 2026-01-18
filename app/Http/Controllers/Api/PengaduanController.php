@@ -11,16 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 class PengaduanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-
-    public function index()
-    {
-        //
-    }
-
+  
     /**
      * Store a newly created resource in storage.
      */
@@ -53,16 +44,6 @@ class PengaduanController extends Controller
             'pengaduan'=>$pengaduan
         ],201);
 
-    }
-
-    /**
-     * Display the specified resource.
-     */
-
-
-    public function show(string $id)
-    {
-        //
     }
 
     public function totalPengaduan()
@@ -113,9 +94,16 @@ class PengaduanController extends Controller
     $pengaduan->status=$data['status'];
         }
 
-        if (isset($data['status'])) {
-            $pengaduan->status = $data['status'];
-        }
+        if(isset($data['catatan'])){
+        $pengaduan->catatan = $data['catatan'];
+    }
+
+        $pengaduan->save();
+
+        return response()->json([
+            'succes'=>'Data berhasil diubah'
+        ]);
+
     }
 
     /**

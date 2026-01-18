@@ -12,7 +12,7 @@ class Pengaduan extends Model{
   
   protected $table ='pengaduans';
 
-  protected $primaryKey= 'id_pengaduan';
+  protected $primaryKey= 'id'; //harus sesuai dengan di db
 
   protected $fillable = [
     'id_user',
