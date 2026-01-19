@@ -111,6 +111,70 @@ class PengaduanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Bagian Tugas Saya: Admin Hapus Pengaduan
+        $pengaduan = Pengaduan::find($id);
+
+        if (!$pengaduan) {
+            return response()->json([
+                'success' => false,
+                'message' => "Data tidak ditemukan"
+            ], 404);
+        }
+
+        $pengaduan->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Data Berhasil Dihapus"
+        ], 200);
+    }
+
+    // Bagian Tugas Saya: Tampilkan Pengaduan Saya
+    public function pengaduanMe(Request $request)
+    {
+        $data = Pengaduan::where('id_user', $request->user()->id)->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    // Bagian Tugas Saya: User Hapus Pengaduan Sendiri
+    public function destroyMe(Request $request, $id)
+    {
+        $pengaduan = Pengaduan::where('id_user', $request->user()->id)->where('id', $id)->first();
+
+        if (!$pengaduan) {
+            return response()->json([
+                'success' => false,
+                'message' => "Data tidak ditemukan atau bukan milik anda"
+            ], 404);
+        }
+
+        $pengaduan->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Data Berhasil Dihapus"
+        ], 200);
+    }
+
+    // Mengambil data laporan sesuai ID (Detail)
+    public function show($id)
+    {
+        $pengaduan = Pengaduan::find($id);
+
+        if (!$pengaduan) {
+            return response()->json([
+                'success' => false,
+                'message' => "Data tidak ditemukan"
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $pengaduan
+        ], 200);
     }
 }

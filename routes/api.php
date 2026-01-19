@@ -9,33 +9,30 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register', [UserController::class, 'register'])->name('register');
 
-
 //role admin
 Route::middleware(['auth:sanctum', 'CekRole:admin'])->group(function () {
-    //update status dan catatan pengaduan
     Route::patch('/pengaduan/admin/{id}', [PengaduanController::class, 'update']);
-    //menampilkan semua pengaduan
     Route::get('/pengaduan/admin', [PengaduanController::class, 'showAll']);
+    
+    // Tugas Saya: Admin hapus pengaduan
+    Route::delete('/admin/pengaduan/{id}', [PengaduanController::class, 'destroy']);
 });
 
-//untuk tampil data pengaduan
+//untuk tampil data pengaduan (Umum)
 Route::get('/pengaduan', [PengaduanController::class, 'dataPengaduan']);
 
-
 Route::middleware(['auth:sanctum'])->group(function () {
-    //Menyimpan pengaduan
     Route::post('/get', [PengaduanController::class, 'stores']);
     Route::post('/pengaduan', [PengaduanController::class, 'store']);
-    //logout
     Route::get('/logout', [UserController::class, 'logout']);
-    //hapus semua token (tidak dipakai)
-    // Route::get('/logoutAll', [UserController::class, 'logoutAll']);
-    });
 
-
-
-
-// Route::middleware(['auth:sanctum', 'CheckRole:masyarakat'])->group(function () {
-//     Route::get('/pengaduan', [PengaduanController::class, 'index']);
-//     Route::post('/pengaduan', [PengaduanController::class, 'store']);
-// });
+    // --- BAGIAN TUGAS SAYA ---
+    // Menampilkan pengaduan milik user login
+    Route::get('/user/pengaduan/me', [PengaduanController::class, 'pengaduanMe']);
+    // Menghapus pengaduan milik sendiri
+    Route::delete('/user/pengaduan/{id}', [PengaduanController::class, 'destroyMe']);
+    // Update Profile
+    Route::patch('/user/profile', [UserController::class, 'updateProfile']);
+    // Menampilkan detail pengaduan berdasarkan ID
+    Route::get('/pengaduan/{id}', [PengaduanController::class, 'show']);
+});

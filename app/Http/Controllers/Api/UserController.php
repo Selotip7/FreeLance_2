@@ -111,5 +111,24 @@ class UserController extends Controller
         ]);
     }
 
+    // Update Profile
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:20',
+        ]);
+
+        $user->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Data Berhasil Diubah",
+            'data' => $user
+        ], 200);
+    }
+
 
 }
