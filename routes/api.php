@@ -14,7 +14,7 @@ Route::middleware(['auth:sanctum', 'CekRole:admin'])->group(function () {
     Route::patch('/pengaduan/admin/{id}', [PengaduanController::class, 'update']);
     Route::get('/pengaduan/admin', [PengaduanController::class, 'showAll']);
     
-    // Tugas Saya: Admin hapus pengaduan
+    // my
     Route::delete('/admin/pengaduan/{id}', [PengaduanController::class, 'destroy']);
 });
 
@@ -26,7 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/pengaduan', [PengaduanController::class, 'store']);
     Route::get('/logout', [UserController::class, 'logout']);
 
-    // --- BAGIAN TUGAS SAYA ---
+    // my
     // Menampilkan pengaduan milik user login
     Route::get('/user/pengaduan/me', [PengaduanController::class, 'pengaduanMe']);
     // Menghapus pengaduan milik sendiri

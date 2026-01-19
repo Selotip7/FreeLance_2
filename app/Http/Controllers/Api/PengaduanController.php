@@ -111,7 +111,7 @@ class PengaduanController extends Controller
      */
     public function destroy(string $id)
     {
-        // Bagian Tugas Saya: Admin Hapus Pengaduan
+        //  Admin Hapus Pengaduan
         $pengaduan = Pengaduan::find($id);
 
         if (!$pengaduan) {
@@ -129,7 +129,7 @@ class PengaduanController extends Controller
         ], 200);
     }
 
-    // Bagian Tugas Saya: Tampilkan Pengaduan Saya
+    // Tampilkan Pengaduan Saya
     public function pengaduanMe(Request $request)
     {
         $data = Pengaduan::where('id_user', $request->user()->id)->get();
@@ -140,7 +140,7 @@ class PengaduanController extends Controller
         ]);
     }
 
-    // Bagian Tugas Saya: User Hapus Pengaduan Sendiri
+    // User Hapus Pengaduan Sendiri
     public function destroyMe(Request $request, $id)
     {
         $pengaduan = Pengaduan::where('id_user', $request->user()->id)->where('id', $id)->first();
