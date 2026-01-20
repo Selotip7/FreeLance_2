@@ -117,11 +117,12 @@ class UserController extends Controller
         $user = $request->user();
         
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:20',
+            'name' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
         ]);
 
-        $user->update($data);
+        // Hanya mengupdate kolom yang diisi saja
+        $user->update(array_filter($data));
 
         return response()->json([
             'success' => true,
